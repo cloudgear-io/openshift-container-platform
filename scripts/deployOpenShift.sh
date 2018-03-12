@@ -225,7 +225,7 @@ runuser -l $SUDOUSER -c "ansible all -b -m service -a \"name=NetworkManager stat
 # Initiating installation of OpenShift Container Platform using Ansible Playbook
 echo $(date) " - Installing OpenShift Container Platform via Ansible Playbook"
 
-runuser -l $SUDOUSER -c "ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml"
+runuser -l $SUDOUSER -c "ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/config.yml -e openshift_disable_check=package_version"
 
 if [ $? -eq 0 ]
 then
@@ -372,9 +372,9 @@ then
 	echo $(date) "- Deploying Metrics"
 	if [ $AZURE == "true" ]
 	then
-		runuser -l $SUDOUSER -c "ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/openshift-cluster/openshift-metrics.yml -e openshift_metrics_install_metrics=True -e openshift_metrics_cassandra_storage_type=dynamic"
+		runuser -l $SUDOUSER -c "ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/openshift-cluster/openshift-metrics.yml -e openshift_metrics_install_metrics=True -e openshift_metrics_cassandra_storage_type=dynamic -e openshift_disable_check=package_version"
 	else
-		runuser -l $SUDOUSER -c "ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/openshift-cluster/openshift-metrics.yml -e openshift_metrics_install_metrics=True"
+		runuser -l $SUDOUSER -c "ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/openshift-cluster/openshift-metrics.yml -e openshift_metrics_install_metrics=True -e openshift_disable_check=package_version"
 	fi
 	if [ $? -eq 0 ]
 	then
@@ -393,9 +393,9 @@ then
 	echo $(date) "- Deploying Logging"
 	if [ $AZURE == "true" ]
 	then
-		runuser -l $SUDOUSER -c "ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/openshift-cluster/openshift-logging.yml -e openshift_logging_install_logging=True -e openshift_hosted_logging_storage_kind=dynamic"
+		runuser -l $SUDOUSER -c "ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/openshift-cluster/openshift-logging.yml -e openshift_logging_install_logging=True -e openshift_hosted_logging_storage_kind=dynamic -e openshift_disable_check=package_version"
 	else
-		runuser -l $SUDOUSER -c "ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/openshift-cluster/openshift-logging.yml -e openshift_logging_install_logging=True"
+		runuser -l $SUDOUSER -c "ansible-playbook /usr/share/ansible/openshift-ansible/playbooks/byo/openshift-cluster/openshift-logging.yml -e openshift_logging_install_logging=True -e openshift_disable_check=package_version"
 	fi
 	if [ $? -eq 0 ]
 	then
